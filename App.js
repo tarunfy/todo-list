@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import Header from "./components/Header";
+import TodoItem from "./components/TodoItem";
 
 export default function App() {
   const [todos, setTodos] = useState([
@@ -9,15 +10,22 @@ export default function App() {
     { text: "Learn NodeJs", key: "2" },
     { text: "Learn Flutter", key: "3" },
   ]);
+  const pressHandler = (key) => {
+    setTodos((prev) => {
+      return prev.filter((todo) => todo.key !== key);
+    });
+  };
   return (
     <View style={styles.container}>
       <Header />
       <View style={styles.content}>
-        {/* Todo form */}
+        {/* todo form */}
         <View style={styles.list}>
           <FlatList
             data={todos}
-            renderItem={({ item }) => <Text>{item.text}</Text>}
+            renderItem={({ item }) => (
+              <TodoItem item={item} pressHandler={pressHandler} />
+            )}
           />
         </View>
       </View>
@@ -29,7 +37,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#EDEDED",
   },
   content: {
     padding: 40,
